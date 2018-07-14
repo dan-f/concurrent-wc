@@ -1,0 +1,44 @@
+name:                wc-haskell
+version:             0.1.0.0
+github:              "dan-f/concurrent-wc"
+license:             BSD3
+author:              "Daniel Friedman"
+maintainer:          "dfriedman58@gmail.com"
+copyright:           "2018 Daniel Friedman"
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/dan-f/concurrent-wc#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  wc-haskell-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - wc-haskell
+
+tests:
+  wc-haskell-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - wc-haskell
