@@ -11,8 +11,8 @@ import (
 
 type LineCount struct {
 	filename string
-	count int
-	err error
+	count    int
+	err      error
 }
 
 func linesInFile(filename string) *LineCount {
