@@ -1,5 +1,5 @@
-GO_SRC = go/src/wc.go
-GO_BIN = bin/go/wc
+GO_SRC = ./wc-go/src/wc.go
+GO_BIN = ./bin/wc-go
 
 .PHONY: all
 all: go

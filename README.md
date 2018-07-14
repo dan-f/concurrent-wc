@@ -16,7 +16,7 @@ The `wc` utility should do the following:
 e.g.
 
 ```
-$ ./go/wc tmp
+$ ./bin/wc-go tmp
         11 tmp/big.txt
          1 tmp/small.txt
         12 [TOTAL]
@@ -31,10 +31,17 @@ them for display.
 
 As of commit [c89a50e](https://github.com/dan-f/concurrent-wc/commit/c89a50e20954d0ba32973a39ad660cf31c1b2bba), the go implementation is the reference implementation.
 
+## adding a language implementation
+
+The various `wc` implementations should be put in sub-directories of the
+top-level directory named `wc-$LANGNAME`; the go implementation is located in
+`wc-go`.  The resulting executables should be placed in `bin/wc-$LANGNAME`; the
+go executable is located at `bin/wc-go`.
+
 ## contributors
 
 Thanks to the following folks!
 
-* Daniel Friedman <dfriedman58s@gmail.com>
+* Daniel Friedman <dfriedman58@gmail.com>
 * Nicolas Hahn <nicolas@stonespring.org>
 * Max Bittman <maxb.personal@gmail.com>
