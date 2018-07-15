@@ -6,8 +6,7 @@ module Lib
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as C
 import System.Directory
-  ( getCurrentDirectory
-  , listDirectory
+  ( listDirectory
   )
 import System.FilePath.Posix
   ( joinPath
@@ -17,12 +16,9 @@ import System.PosixCompat.Files
   , isRegularFile
   )
 
-getFilesInDir :: Maybe FilePath -> IO [FilePath]
-getFilesInDir mPath =
-  let locateDir = case mPath of
-                    Just path -> return path
-                    Nothing -> getCurrentDirectory
-  in locateDir >>= listDirectory' >>= onlyRegularFiles
+getFilesInDir :: FilePath -> IO [FilePath]
+getFilesInDir path =
+  listDirectory' path >>= onlyRegularFiles
 
 listDirectory' :: FilePath -> IO [FilePath]
 listDirectory' path =
