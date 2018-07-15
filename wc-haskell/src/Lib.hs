@@ -1,7 +1,10 @@
 module Lib
   ( getFilesInDir
+  , countLines
   ) where
 
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Char8 as C
 import System.Directory
   ( getCurrentDirectory
   , listDirectory
@@ -22,9 +25,9 @@ getFilesInDir mPath =
   in locateDir >>= listDirectory' >>= onlyRegularFiles
 
 listDirectory' :: FilePath -> IO [FilePath]
-listDirectory' path = do
-  files <- listDirectory path
-  return $ map (\file -> joinPath [path, file]) files
+listDirectory' path =
+  fullyQualify <$> listDirectory path
+  where fullyQualify = map (\file -> joinPath [path, file])
 
 onlyRegularFiles :: [FilePath] -> IO [FilePath]
 onlyRegularFiles files = do
@@ -36,4 +39,8 @@ onlyRegularFiles files = do
 
 isRegularFile' :: FilePath -> IO Bool
 isRegularFile' path =
-  getFileStatus path >>= \status -> return $ isRegularFile status
+  isRegularFile <$> getFileStatus path
+
+countLines :: FilePath -> IO Int
+countLines path =
+  C.count '\n' <$> B.readFile path

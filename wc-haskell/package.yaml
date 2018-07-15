@@ -17,6 +17,7 @@ description:         Please see the README on GitHub at <https://github.com/dan-
 
 dependencies:
 - base >= 4.7 && < 5
+- bytestring >= 0.1 && <= 1.0
 - filepath >= 1 && <= 2
 - directory >= 1.0 && < 2.0
 - unix-compat >= 0.1 && <= 1.0
