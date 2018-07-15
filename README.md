@@ -40,7 +40,7 @@ go executable is located at `bin/wc-go`.
 
 ## dependencies
 
-Each language implementation has it's own dependencies.
+Each language implementation has its own dependencies.
 
 - `wc-go` requires a [go installation](https://golang.org/doc/install)
 - `wc-haskell` requires the [stack build tool](https://docs.haskellstack.org/en/stable/README/)
