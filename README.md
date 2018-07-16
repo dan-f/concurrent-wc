@@ -7,11 +7,11 @@ languages by implementing a simple `wc -l`-style utility.
 
 The `wc` utility should do the following:
 
-1. Display the number of lines for each regular file in the directory.
-2. Display the cumulative number of lines of all files in the directory.
-3. Optionally take a single command-line argument specifying a different
-   directory.
-4. Sort the files in terms of number of lines, in descending order.
+1.  Display the number of lines for each regular file in the directory.
+2.  Display the cumulative number of lines of all files in the directory.
+3.  Optionally take a single command-line argument specifying a different
+    directory.
+4.  Sort the files in terms of number of lines, in descending order.
 
 e.g.
 
@@ -25,7 +25,7 @@ $ ./bin/wc-go tmp
 ## implementing
 
 The suggested implementation involves "fanning out" asynchronous tasks to read
-through each file in the directory and count the lines concurrently.  The tasks
+through each file in the directory and count the lines concurrently. The tasks
 will need to be synchronized at the end in order to compile the results and sort
 them for display.
 
@@ -35,13 +35,20 @@ As of commit [c89a50e](https://github.com/dan-f/concurrent-wc/commit/c89a50e2095
 
 The various `wc` implementations should be put in sub-directories of the
 top-level directory named `wc-$LANGNAME`; the go implementation is located in
-`wc-go`.  The resulting executables should be placed in `bin/wc-$LANGNAME`; the
+`wc-go`. The resulting executables should be placed in `bin/wc-$LANGNAME`; the
 go executable is located at `bin/wc-go`.
+
+## dependencies
+
+Each language implementation has its own dependencies.
+
+- `wc-go` requires a [go installation](https://golang.org/doc/install)
+- `wc-haskell` requires the [stack build tool](https://docs.haskellstack.org/en/stable/README/)
 
 ## contributors
 
 Thanks to the following folks!
 
-* Daniel Friedman <dfriedman58@gmail.com>
-* Nicolas Hahn <nicolas@stonespring.org>
-* Max Bittman <maxb.personal@gmail.com>
+- Daniel Friedman <mailto:dfriedman58@gmail.com>
+- Nicolas Hahn <mailto:nicolas@stonespring.org>
+- Max Bittman <mailto:maxb.personal@gmail.com>
