@@ -21,11 +21,14 @@ end
 def get_results_green_threaded(files, basepath)
   results = {}
   threads = []
+  mu = Mutex.new
 
   files.each do |f|
     threads << Thread.new do
       lines = File.readlines File.join(basepath, f)
-      results[f] = lines.length
+      mu.synchronize do
+        results[f] = lines.length
+      end
     end
   end
 
