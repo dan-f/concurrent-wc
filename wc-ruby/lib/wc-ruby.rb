@@ -51,19 +51,3 @@ def get_results_system_threads(files, basepath)
 
   return results
 end
-
-# using fibers
-def get_results_system_threads(files, basepath)
-  results = {}
-
-  files.each do |f|
-    fork do
-      lines = File.readlines File.join(basepath, f)
-      results[f] = lines.length
-    end
-  end
-
-  Process.waitall
-
-  return results
-end
