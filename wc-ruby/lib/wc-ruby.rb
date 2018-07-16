@@ -38,11 +38,21 @@ end
 def get_results_system_threads(files, basepath)
   results = {}
 
+  reader, writer = IO.pipe
+
   files.each do |f|
     fork do
+      reader.close # we aren't using the reader pipe inside the forked process
+
       lines = File.readlines File.join(basepath, f)
-      results[f] = lines.length
+      writer.puts lines.length.to_s + "§" + f
     end
+  end
+
+  writer.close
+  while msg = reader.gets
+    length, f = msg.split("§")
+    results[f] = length
   end
 
   Process.waitall

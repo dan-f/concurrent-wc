@@ -12,4 +12,4 @@ files = list_files(path)
 
 puts "Base case - #{Benchmark.realtime { get_results(files, path) }}s"
 puts "Green threads - #{Benchmark.realtime { get_results_green_threaded(files, path) }}s"
-puts "System threads - #{Benchmark.realtime { get_results_system_threads(files, path) }}s"
+puts "System threads and socket IPC - #{Benchmark.realtime { get_results_system_threads(files, path) }}s"
