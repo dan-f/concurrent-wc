@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'benchmark'
-
 def list_files(path)
   entries = Dir.entries(path)
   return entries.select { |f| File.file? File.join(path, f) }
