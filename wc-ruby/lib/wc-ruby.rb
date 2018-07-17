@@ -62,3 +62,56 @@ def get_results_system_threads(files, basepath)
 
   return results
 end
+
+def get_results_threadpool(files, basepath)
+  require 'socket'
+  results = {}
+  sockets = []
+  threads = []
+
+  4.times { sockets << create_socket_slave(basepath) }
+
+  socket_pool = Enumerator.new do |y|
+    loop do
+      y << sockets[0]
+      y << sockets[1]
+      y << sockets[2]
+      y << sockets[3]
+    end
+  end
+
+  threads << Thread.new {
+    files.each do |f|
+      socket_pool.take(1).first.send(f, 0)
+    end
+
+    socket_pool.take(4).map { |s| s.send("BREAK", 0)}
+  }
+
+  threads << Thread.new {
+    files.length.times do
+      msg = socket_pool.take(1).first.recv(500).force_encoding('UTF-8')
+      length, f = msg.split("§")
+      results[f] = length
+    end
+  }
+
+  threads.map(&:join)
+
+  return results
+end
+
+def create_socket_slave(basepath)
+  parent_socket, child_socket = Socket.pair(:UNIX, :DGRAM, 0)
+
+  fork do
+    parent_socket.close
+    while f = child_socket.recv(500)
+      break if f == "BREAK"
+      lines = File.readlines File.join(basepath, f)
+      child_socket.send(lines.length.to_s + "§" + f, 0)
+    end
+  end
+
+  return parent_socket
+end
