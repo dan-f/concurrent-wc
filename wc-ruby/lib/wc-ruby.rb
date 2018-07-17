@@ -98,6 +98,8 @@ def get_results_threadpool(files, basepath)
 
   threads.map(&:join)
 
+  Process.waitall
+
   return results
 end
 
@@ -111,6 +113,8 @@ def create_socket_slave(basepath)
       lines = File.readlines File.join(basepath, f)
       child_socket.send(lines.length.to_s + "§" + f, 0)
     end
+
+    child_socket.close
   end
 
   return parent_socket

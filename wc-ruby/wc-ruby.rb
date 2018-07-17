@@ -10,7 +10,7 @@ if path == nil
 end
 
 files = list_files(path)
-results = get_results_system_threads(files, path)
+results = get_results(files, path)
 
 sorted_results = results.sort_by { |_, v| v }.reverse
 sorted_results.each do |r|
