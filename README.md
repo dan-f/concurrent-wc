@@ -44,6 +44,11 @@ Each language implementation has its own dependencies.
 
 - `wc-go` requires a [go installation](https://golang.org/doc/install)
 - `wc-haskell` requires the [stack build tool](https://docs.haskellstack.org/en/stable/README/)
+- `wc-rust` requires [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
+
+## building
+
+Just run `make` from the project root.  Or if you want to build a particular language implementation, run e.g. `make go` or `make rust`.
 
 ## contributors
 
