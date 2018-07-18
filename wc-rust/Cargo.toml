@@ -1,0 +1,6 @@
+[package]
+name = "wc_rust"
+version = "0.1.0"
+authors = ["Maxb <maxb.personal@gmail.com>"]
+
+[dependencies]
