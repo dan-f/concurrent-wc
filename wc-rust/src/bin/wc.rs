@@ -1,10 +1,14 @@
+extern crate wc_rust;
+
 use std::fs;
 use std::env;
-use std::thread;
 use std::sync::mpsc;
 use std::path::{Path, PathBuf};
 use std::io::BufReader;
 use std::io::prelude::*;
+use wc_rust::ThreadPool;
+
+thread_local!(static NUM_THREADS: usize = 8);
 
 fn count_lines(path: &Path) -> Result<(usize, PathBuf), std::io::Error> {
     let file = fs::File::open(path)?;
@@ -27,6 +31,7 @@ fn list_dir(path: PathBuf) -> Result<Vec<PathBuf>, std::io::Error> {
 }
 
 fn main() -> std::io::Result<()> {
+
     let args: Vec<String> = env::args().collect();
 
     let path = match args.len() {
@@ -49,26 +54,30 @@ fn main() -> std::io::Result<()> {
         }
     };
 
+    let thread_pool = NUM_THREADS.with(|n| ThreadPool::new(*n));
+
     let (tx, rx) = mpsc::channel();
 
     let path_count = paths.len();
 
     for path in paths {
         let tx1 = mpsc::Sender::clone(&tx);
-        let _join_handle = thread::spawn(move || {
-            let count_result = count_lines(&path);
-            tx1.send(count_result).unwrap();
+        thread_pool.execute(move || {
+            let result = count_lines(&path);
+            tx1.send(result).expect("Error sending down channel");
+
         });
     }
 
     let mut num_received = 0;
     while num_received < path_count {
-        let received = rx.recv().unwrap();
-        if let Ok(count) = received {
+        let result = rx.recv().expect("Error receiving from channel");
+        if let Ok(count) = result {
             let (num_lines, _) = count;
             total_lines += num_lines;
             line_count.push(count);
-        }
+        };
+
         num_received += 1;
     }
 
