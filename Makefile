@@ -10,7 +10,7 @@ HASKELL_BIN = ./bin/wc-haskell
 .PHONY: all
 all: go haskell rust
 
-.PHONY: go rust
+.PHONY: rust
 go: $(GO_BIN)
 
 $(GO_BIN): $(GO_SRC)
@@ -24,6 +24,7 @@ $(HASKELL_BIN): $(HASKELL_SRC)
 		stack build && \
 		cp ./`stack path --dist-dir`/build/wc-haskell-exe/wc-haskell-exe ../$(HASKELL_BIN)
 
+.PHONY: rust
 rust: $(RUST_BIN)
 
 $(RUST_BIN): $(RUST_SRC)
