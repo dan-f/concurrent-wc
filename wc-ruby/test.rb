@@ -13,7 +13,7 @@ files = list_files(path)
 test_cases = [
   Proc.new { puts "Base case - #{Benchmark.realtime { get_results(files, path) }}s" },
   Proc.new { puts "Green threads - #{Benchmark.realtime { get_results_green_threaded(files, path) }}s" },
-  Proc.new { puts "System threads and socket IPC - #{Benchmark.realtime { get_results_system_threads(files, path) }}s" },
+  Proc.new { puts "System threads and socket IPC - #{Benchmark.realtime { get_results_system_processes(files, path) }}s" },
   Proc.new { puts "Green threads w/ threadpool - #{Benchmark.realtime { get_results_threadpool(files, path) }}s" }
 ]
 

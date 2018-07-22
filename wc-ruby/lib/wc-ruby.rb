@@ -37,8 +37,8 @@ def get_results_green_threaded(files, basepath)
   return results
 end
 
-# using processes (system threads)
-def get_results_system_threads(files, basepath)
+# using OS processes
+def get_results_system_processes(files, basepath)
   results = {}
 
   reader, writer = IO.pipe
