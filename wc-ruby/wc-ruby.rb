@@ -2,12 +2,7 @@
 
 require_relative './lib/wc-ruby'
 
-path = ARGV[0]
-
-if path == nil
-  puts "You gotsta give me an argument."
-  exit(1)
-end
+path = ARGV.fetch(0, ".")
 
 files = list_files(path)
 results = get_results(files, path)
