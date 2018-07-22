@@ -1,7 +1,6 @@
 GO_SRC = ./wc-go/src/wc.go
 GO_BIN = ./bin/wc-go
 RUST_SRC_DIR = ./wc-rust/
-RUST_SRC = ./wc-rust/src/main.rs
 RUST_BIN = ./bin/wc-rust
 
 HASKELL_SRC = ./wc-haskell/src/Lib.hs ./wc-haskell/app/Main.hs
@@ -30,11 +29,11 @@ $(HASKELL_BIN): $(HASKELL_SRC)
 .PHONY: rust
 rust: $(RUST_BIN)
 
-$(RUST_BIN): $(RUST_SRC)
+$(RUST_BIN): $(RUST_SRC_DIR)
 	cd $(RUST_SRC_DIR) && \
 	cargo build --release && \
 	cd ../ && \
-	cp $(RUST_SRC_DIR)target/release/wc-rust $(RUST_BIN)
+	cp $(RUST_SRC_DIR)target/release/wc $(RUST_BIN)
 
 .PHONY: ocaml
 ocaml: $(OCAML_BIN)
