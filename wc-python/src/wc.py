@@ -32,13 +32,13 @@ def main():
     # use threads without any fuss (the API is the same). I've found that
     # for small directories and files, threads are faster, but once the number
     # and size of files gets large enough, processes become faster. Running
-    # this program on the root repo directory (4 small files) takes ~0.127s 
-    # with threads and ~0.205s with processes. However, on my ~/Downloads
-    # directory (198 files and 14m lines), threads take around 7 seconds and 
+    # this program on my ~/Documents dir (50 files, 214k lines) takes ~0.260s 
+    # with threads and ~1.384s with processes. However, on my ~/Downloads
+    # directory (198 files and 14m lines), threads take around 7 seconds and
     # processes take about 3. Threads are quicker to start up, and so are
     # better for small tasks, but processes catch up when they can take full
     # full advantage of multiple cores.
-    with futures.ProcessPoolExecutor(max_workers=len(filenames)) as executor:
+    with futures.ThreadPoolExecutor(max_workers=len(filenames)) as executor:
         all_futures = [executor.submit(line_count, f) for f in filenames]
         for future in futures.as_completed(all_futures):
             filename, count = future.result()
