@@ -1,0 +1,19 @@
+{
+  "name": "wc-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bin/wc.js",
+  "directories": {
+    "bin": "bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dan-f/concurrent-wc.git"
+  },
+  "author": "Daniel Friedman <dfriedman58@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dan-f/concurrent-wc/issues"
+  },
+  "homepage": "https://github.com/dan-f/concurrent-wc#readme"
+}
