@@ -69,7 +69,7 @@ def get_results_threadpool(files, basepath)
   sockets = []
   threads = []
 
-  4.times { sockets << create_socket_slave(basepath) }
+  4.times { sockets << create_socket_worker(basepath) }
 
   socket_pool = Enumerator.new do |y|
     loop do
@@ -103,7 +103,7 @@ def get_results_threadpool(files, basepath)
   return results
 end
 
-def create_socket_slave(basepath)
+def create_socket_worker(basepath)
   parent_socket, child_socket = Socket.pair(:UNIX, :DGRAM, 0)
 
   fork do
