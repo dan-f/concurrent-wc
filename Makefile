@@ -7,8 +7,11 @@ RUST_BIN = ./bin/wc-rust
 HASKELL_SRC = ./wc-haskell/src/Lib.hs ./wc-haskell/app/Main.hs
 HASKELL_BIN = ./bin/wc-haskell
 
+PYTHON_SRC = ./wc-python/src/wc.py
+PYTHON_BIN = ./bin/wc-python
+
 .PHONY: all
-all: go haskell rust
+all: go haskell rust python
 
 .PHONY: rust
 go: $(GO_BIN)
@@ -32,3 +35,9 @@ $(RUST_BIN): $(RUST_SRC)
 	cargo build --release && \
 	cd ../ && \
 	cp $(RUST_SRC_DIR)target/release/wc-rust $(RUST_BIN)
+
+.PHONY: python
+python: $(PYTHON_BIN)
+
+$(PYTHON_BIN): $(PYTHON_SRC)
+	cp $(PYTHON_SRC) $(PYTHON_BIN) && chmod u+x $(PYTHON_BIN)
