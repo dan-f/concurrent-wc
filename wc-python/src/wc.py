@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Emulates wc -l using concurrent processes/threads."""
 
 import sys
@@ -8,21 +8,22 @@ from concurrent import futures
 
 def count_lines(filename):
     """Open file, count newlines, then return (filename, line_count) tuple."""
-    with open(filename, 'r') as file_to_read:
-        lines = file_to_read.readlines()
-        line_count = len(lines)
-        # Because readlines() returns a line even if the only
-        # text in the file is not terminated by a newline
-        if line_count == 1:
-            if '\n' not in lines[0]:
-                line_count = 0
+    with open(filename, 'rb') as file_to_read:
+        chunk_size = 8192
+        line_count = 0
+        while True:
+            chunk = file_to_read.read(chunk_size)
+            if chunk:
+                line_count += chunk.count(b'\n')
+            else:
+                break
         return filename, line_count
 
 
 def print_count(count, label):
     """Print a line count right-justified along with a label."""
     formatted_count = str(count).rjust(10)
-    print "{} {}".format(formatted_count, label)
+    print("{} {}".format(formatted_count, label))
 
 
 def main():
