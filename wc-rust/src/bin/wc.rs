@@ -1,11 +1,11 @@
 extern crate wc_rust;
 
-use std::fs;
 use std::env;
-use std::sync::mpsc;
-use std::path::{Path, PathBuf};
-use std::io::BufReader;
+use std::fs;
 use std::io::prelude::*;
+use std::io::BufReader;
+use std::path::{Path, PathBuf};
+use std::sync::mpsc;
 use wc_rust::ThreadPool;
 
 thread_local!(static NUM_THREADS: usize = 8);
@@ -31,12 +31,11 @@ fn list_dir(path: PathBuf) -> Result<Vec<PathBuf>, std::io::Error> {
 }
 
 fn main() -> std::io::Result<()> {
-
     let args: Vec<String> = env::args().collect();
 
     let path = match args.len() {
         1 => Path::new("./"),
-        _ => Path::new(&args[1])
+        _ => Path::new(&args[1]),
     };
 
     let metadata = fs::metadata(path)?;
@@ -46,12 +45,8 @@ fn main() -> std::io::Result<()> {
     let mut line_count: Vec<(usize, PathBuf)> = Vec::new();
 
     let paths: Vec<PathBuf> = match metadata.is_dir() {
-        true => {
-            list_dir(path.to_path_buf())?
-        }
-        false => {
-            vec![path.to_path_buf()]
-        }
+        true => list_dir(path.to_path_buf())?,
+        false => vec![path.to_path_buf()],
     };
 
     let thread_pool = NUM_THREADS.with(|n| ThreadPool::new(*n));
@@ -65,7 +60,6 @@ fn main() -> std::io::Result<()> {
         thread_pool.execute(move || {
             let result = count_lines(&path);
             tx1.send(result).expect("Error sending down channel");
-
         });
     }
 

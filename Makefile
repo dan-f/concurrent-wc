@@ -10,13 +10,19 @@ HASKELL_BIN = ./bin/wc-haskell
 RUBY_SRC = ./wc-ruby/lib/binstub
 RUBY_BIN = ./bin/wc-ruby
 
+PYTHON_SRC = ./wc-python/src/wc.py
+PYTHON_BIN = ./bin/wc-python
+
+OCAML_SRC = ./wc-ocaml/*.ml ./wc-ocaml/*.mli
+OCAML_BIN = ./bin/wc-ocaml
+
 NODE_SRC = ./wc-node/bin/wc.js
 NODE_BIN = ./bin/wc-node
 
 .PHONY: all
-all: go haskell rust ruby node
+all: go haskell rust ruby python ocaml node
 
-.PHONY: rust
+.PHONY: go
 go: $(GO_BIN)
 
 $(GO_BIN): $(GO_SRC)
@@ -27,8 +33,8 @@ haskell: $(HASKELL_BIN)
 
 $(HASKELL_BIN): $(HASKELL_SRC)
 	cd wc-haskell && \
-		stack build && \
-		cp ./`stack path --dist-dir`/build/wc-haskell-exe/wc-haskell-exe ../$(HASKELL_BIN)
+	stack build && \
+	cp ./`stack path --dist-dir`/build/wc-haskell-exe/wc-haskell-exe ../$(HASKELL_BIN)
 
 .PHONY: rust
 rust: $(RUST_BIN)
@@ -39,11 +45,25 @@ $(RUST_BIN): $(RUST_SRC_DIR)
 	cd ../ && \
 	cp $(RUST_SRC_DIR)target/release/wc $(RUST_BIN)
 
+.PHONY: python
+python: $(PYTHON_BIN)
+
+$(PYTHON_BIN): $(PYTHON_SRC)
+	cp $(PYTHON_SRC) $(PYTHON_BIN) && chmod u+x $(PYTHON_BIN)
+
 .PHONY: ruby
 ruby: $(RUBY_BIN)
 
 $(RUBY_BIN): $(RUBY_SRC)
 	cp $(RUBY_SRC) $(RUBY_BIN) && chmod +x $(RUBY_BIN)
+
+.PHONY: ocaml
+ocaml: $(OCAML_BIN)
+
+$(OCAML_BIN): $(OCAML_SRC)
+	cd wc-ocaml && \
+	corebuild wc_ocaml.native -pkgs str,async && \
+	cp wc_ocaml.native ../$(OCAML_BIN)
 
 .PHONY: node
 node: $(NODE_BIN)
