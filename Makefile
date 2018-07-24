@@ -1,5 +1,6 @@
 GO_SRC = ./wc-go/src/wc.go
 GO_BIN = ./bin/wc-go
+
 RUST_SRC_DIR = ./wc-rust/
 RUST_BIN = ./bin/wc-rust
 
@@ -15,8 +16,11 @@ PYTHON_BIN = ./bin/wc-python
 OCAML_SRC = ./wc-ocaml/*.ml ./wc-ocaml/*.mli
 OCAML_BIN = ./bin/wc-ocaml
 
+NODE_SRC = ./wc-node/bin/wc.js
+NODE_BIN = ./bin/wc-node
+
 .PHONY: all
-all: go haskell rust ruby python ocaml
+all: go haskell rust ruby python ocaml node
 
 .PHONY: go
 go: $(GO_BIN)
@@ -60,3 +64,9 @@ $(OCAML_BIN): $(OCAML_SRC)
 	cd wc-ocaml && \
 	corebuild wc_ocaml.native -pkgs str,async && \
 	cp wc_ocaml.native ../$(OCAML_BIN)
+
+.PHONY: node
+node: $(NODE_BIN)
+
+$(NODE_BIN): $(NODE_SRC)
+	cp $(NODE_SRC) $(NODE_BIN) && chmod u+x $(NODE_BIN)
