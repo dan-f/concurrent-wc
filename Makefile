@@ -19,8 +19,11 @@ OCAML_BIN = ./bin/wc-ocaml
 NODE_SRC = ./wc-node/bin/wc.js
 NODE_BIN = ./bin/wc-node
 
+BASH_SRC = ./wc-bash/wc
+BASH_BIN = ./bin/wc-bash
+
 .PHONY: all
-all: go haskell rust ruby python ocaml node
+all: go haskell rust ruby python ocaml node bash
 
 .PHONY: go
 go: $(GO_BIN)
@@ -70,3 +73,9 @@ node: $(NODE_BIN)
 
 $(NODE_BIN): $(NODE_SRC)
 	cp $(NODE_SRC) $(NODE_BIN) && chmod u+x $(NODE_BIN)
+
+.PHONY: bash
+bash: $(BASH_BIN)
+
+$(BASH_BIN): $(BASH_SRC)
+	cp $(BASH_SRC) $(BASH_BIN) && chmod u+x $(BASH_BIN)

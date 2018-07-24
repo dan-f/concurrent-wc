@@ -42,13 +42,17 @@ go executable is located at `bin/wc-go`.
 
 Each language implementation has its own dependencies.
 
-- `wc-go` requires a [go installation](https://golang.org/doc/install)
+- `wc-go` requires [go](https://golang.org/doc/install)
 - `wc-haskell` requires the [stack build tool](https://docs.haskellstack.org/en/stable/README/)
+- `wc-node` requires [node](https://nodejs.org/en/)
+- `wc-ocaml` requires [OCaml](https://ocaml.org/docs/install.html) as well as the `async` and `core` packages
+- `wc-python` requires [python3](https://www.python.org/getit/)
+- `wc-ruby` requires [ruby](https://www.ruby-lang.org/en/downloads/)
 - `wc-rust` requires [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 
 ## building
 
-Just run `make` from the project root.  Or if you want to build a particular language implementation, run e.g. `make go` or `make rust`.
+Just run `make` from the project root. Or if you want to build a particular language implementation, run e.g. `make go` or `make rust`.
 
 ## contributors
 
@@ -57,3 +61,4 @@ Thanks to the following folks!
 - Daniel Friedman <mailto:dfriedman58@gmail.com>
 - Nicolas Hahn <mailto:nicolas@stonespring.org>
 - Max Bittman <mailto:maxb.personal@gmail.com>
+- Henry Stanley <mailto:henry@henrystanley.com>

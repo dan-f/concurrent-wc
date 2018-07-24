@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "bin/wc.js",
+  "engines": {
+    "node": ">=10.7.0"
+  },
   "directories": {
     "bin": "bin"
   },
