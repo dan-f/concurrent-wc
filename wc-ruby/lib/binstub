@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.expand_path('../wc-ruby',__dir__))
+
+require 'wc-ruby'
