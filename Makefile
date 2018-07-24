@@ -10,8 +10,11 @@ HASKELL_BIN = ./bin/wc-haskell
 RUBY_SRC = ./wc-ruby/lib/binstub
 RUBY_BIN = ./bin/wc-ruby
 
+PYTHON_SRC = ./wc-python/src/wc.py
+PYTHON_BIN = ./bin/wc-python
+
 .PHONY: all
-all: go haskell ruby rust
+all: go haskell rust ruby python
 
 .PHONY: rust
 go: $(GO_BIN)
@@ -36,9 +39,14 @@ $(RUST_BIN): $(RUST_SRC)
 	cd ../ && \
 	cp $(RUST_SRC_DIR)target/release/wc-rust $(RUST_BIN)
 
+.PHONY: python
+python: $(PYTHON_BIN)
+
+$(PYTHON_BIN): $(PYTHON_SRC)
+	cp $(PYTHON_SRC) $(PYTHON_BIN) && chmod u+x $(PYTHON_BIN)
+
 .PHONY: ruby
 ruby: $(RUBY_BIN)
 
 $(RUBY_BIN): $(RUBY_SRC)
 	cp $(RUBY_SRC) $(RUBY_BIN) && chmod +x $(RUBY_BIN)
-
