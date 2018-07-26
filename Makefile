@@ -22,8 +22,11 @@ NODE_BIN = ./bin/wc-node
 BASH_SRC = ./wc-bash/wc
 BASH_BIN = ./bin/wc-bash
 
+C_SRC = ./wc-c/wc
+C_BIN = ./bin/wc-c
+
 .PHONY: all
-all: go haskell rust ruby python ocaml node bash
+all: go haskell rust ruby python ocaml node bash c
 
 .PHONY: go
 go: $(GO_BIN)
@@ -79,3 +82,7 @@ bash: $(BASH_BIN)
 
 $(BASH_BIN): $(BASH_SRC)
 	cp $(BASH_SRC) $(BASH_BIN) && chmod u+x $(BASH_BIN)
+
+.PHONY: c
+c:
+	make -C wc-c/src
