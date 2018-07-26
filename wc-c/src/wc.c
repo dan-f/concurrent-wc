@@ -6,9 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include <aio.h>
-#include <signal.h>
-#include <pthread.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 

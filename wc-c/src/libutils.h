@@ -7,13 +7,6 @@ struct path {
   char *path;
 };
 
-struct count {
-  int result_code;
-  int words;
-  int lines;
-  int characters;
-};
-
 struct paths {
   size_t num;
   struct path *paths;

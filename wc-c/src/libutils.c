@@ -7,7 +7,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <limits.h>
-#include <signal.h>
 #include <pthread.h>
 
 #include "libutils.h"
@@ -29,7 +28,8 @@ int total_lines;
 
 void count_lines_in_file(struct path *path) {
   FILE *f;
-  char *ret;
+  size_t ret;
+  size_t i;
   char b[BUF_SIZE];
   size_t lines = 0;
 
@@ -47,9 +47,13 @@ void count_lines_in_file(struct path *path) {
   }
 
   do {
-    ret = fgets(b, BUF_SIZE, f);
-    lines++;
-  } while (ret != NULL);
+    ret = fread(b, 1, BUF_SIZE, f);
+    for (i = 0; i < ret; i++) {
+      if (b[i] == 10) {
+        lines++;
+      }
+    }
+  } while (ret == BUF_SIZE);
 
   path->lines += lines;
 
