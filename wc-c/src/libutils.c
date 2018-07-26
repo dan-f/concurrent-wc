@@ -36,6 +36,13 @@ void count_lines_in_file(struct path *path) {
   f = fopen(path->path, "r");
   if (!f) {
     printf("Error opening file: %s\n", path->path);
+    files_counted++;
+    if (files_counted == paths->num) {
+      pthread_mutex_lock(work_queue.mut);
+      work_queue.finished = true;
+      pthread_cond_broadcast(work_queue.cond);
+      pthread_mutex_unlock(work_queue.mut);
+    }
     return;
   }
 
