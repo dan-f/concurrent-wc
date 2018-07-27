@@ -11,9 +11,15 @@ use wc_rust::ThreadPool;
 thread_local!(static NUM_THREADS: usize = 8);
 
 fn count_lines(path: &Path) -> Result<(usize, PathBuf), std::io::Error> {
-    let file = fs::File::open(path)?;
-    let buf_reader = BufReader::new(file);
-    let lines = buf_reader.lines().count();
+    let mut file = fs::File::open(path)?;
+    let mut buffer = Vec::new();
+    file.read_to_end(&mut buffer)?;
+    let mut lines = 0;
+    for c in buffer {
+        if c == 10 {
+            lines += 1;
+        }
+    }
     Ok((lines, path.to_path_buf()))
 }
 
