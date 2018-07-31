@@ -26,6 +26,17 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 struct paths *paths;
 int total_lines;
 
+void increment_file_count() {
+  pthread_mutex_lock(work_queue.mut);
+  files_counted++;
+
+  if (files_counted == paths->num) {
+    work_queue.finished = true;
+    pthread_cond_broadcast(work_queue.cond);
+  }
+  pthread_mutex_unlock(work_queue.mut);
+}
+
 void count_lines_in_file(struct path *path) {
   FILE *f;
   size_t ret;
@@ -36,13 +47,7 @@ void count_lines_in_file(struct path *path) {
   f = fopen(path->path, "r");
   if (!f) {
     printf("Error opening file: %s\n", path->path);
-    files_counted++;
-    if (files_counted == paths->num) {
-      pthread_mutex_lock(work_queue.mut);
-      work_queue.finished = true;
-      pthread_cond_broadcast(work_queue.cond);
-      pthread_mutex_unlock(work_queue.mut);
-    }
+    increment_file_count();
     return;
   }
 
@@ -57,13 +62,7 @@ void count_lines_in_file(struct path *path) {
 
   path->lines += lines;
 
-  files_counted++;
-  if (files_counted == paths->num) {
-    pthread_mutex_lock(work_queue.mut);
-    work_queue.finished = true;
-    pthread_cond_broadcast(work_queue.cond);
-    pthread_mutex_unlock(work_queue.mut);
-  }
+  increment_file_count();
 
   fclose(f);
 }
