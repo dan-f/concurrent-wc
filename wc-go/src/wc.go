@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"time"
 )
 
 type LineCount struct {
@@ -50,6 +51,7 @@ func check(err error) {
 }
 
 func main() {
+	start := time.Now()
 	args := os.Args[1:]
 	dirPath := "./"
 	if len(args) != 0 {
@@ -81,4 +83,6 @@ func main() {
 		fmt.Printf("%10v %s\n", count, filename)
 	}
 	fmt.Printf("%10v [TOTAL]\n", totalCount)
+	elapsed := int64(time.Since(start) / time.Millisecond)
+	fmt.Printf("Took %dms\n", elapsed)
 }

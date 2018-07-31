@@ -19,7 +19,7 @@ OCAML_BIN = ./bin/wc-ocaml
 NODE_SRC = ./wc-node/bin/wc.js
 NODE_BIN = ./bin/wc-node
 
-BASH_SRC = ./wc-bash/wc
+BASH_SRC = ./wc-bash/wc-bash
 BASH_BIN = ./bin/wc-bash
 
 C_SRC = ./wc-c/wc

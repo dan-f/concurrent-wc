@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <sys/types.h>
 #include <sys/syslimits.h>
 
@@ -14,6 +15,15 @@
 
 void print_help() {
   fprintf(stdout, "Must supply 1 argument\n");
+}
+
+void print_time_err() {
+  fprintf(stderr, "gettimeofday failed: %d: %s\n", errno, strerror(errno));
+}
+
+void print_elapsed_time(struct timeval *start, struct timeval *end) {
+  uint elapsed_ms = (end->tv_usec - start->tv_usec) / 1000;
+  printf("Took %dms\n", elapsed_ms);
 }
 
 void path_push(struct paths *p, char *path) {
@@ -88,6 +98,13 @@ struct paths *list_dir_paths(char *path) {
 
 int main(int argc, char *argv[]) {
   size_t i;
+  int err;
+  struct timeval start_time, end_time;
+  err = gettimeofday(&start_time, NULL);
+  if (err) {
+    print_time_err();
+    exit(1);
+  }
   struct paths *path_listing;
   if (argc != 2) {
     print_help();
@@ -102,6 +119,13 @@ int main(int argc, char *argv[]) {
     free(path_listing->paths);
     free(path_listing);
   }
+
+  err = gettimeofday(&end_time, NULL);
+  if (err) {
+    print_time_err();
+    exit(1);
+  }
+  print_elapsed_time(&start_time, &end_time);
 
   return 0;
 }
