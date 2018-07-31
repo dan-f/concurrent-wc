@@ -12,6 +12,7 @@ The `wc` utility should do the following:
 3.  Optionally take a single command-line argument specifying a different
     directory.
 4.  Sort the files in terms of number of lines, in descending order.
+5.  Print the running time, rounded to the nearest integer, in milliseconds
 
 e.g.
 
@@ -20,6 +21,7 @@ $ ./bin/wc-go tmp
         11 tmp/big.txt
          1 tmp/small.txt
         12 [TOTAL]
+Took 1ms
 ```
 
 ## implementing
