@@ -2,6 +2,7 @@ module Main where
 
 import Control.Concurrent
 import Data.List
+import System.Clock
 import System.Directory
   ( getCurrentDirectory
   )
@@ -48,6 +49,7 @@ countLinesTask chan currentDir path = do
 
 main :: IO ()
 main = do
+  start <- getTime Monotonic
   args <- getArgs
   currentDir <- getCurrentDirectory
   let dir = case head' args of
@@ -62,3 +64,6 @@ main = do
   printLineCounts lineCounts
   let total = foldr (\(LineCount _ count) t -> count + t) 0 lineCounts
   printTotal total
+  end <- getTime Monotonic
+  let elapsedMs = round $ fromIntegral (nsec $ end - start) / 1000000
+  putStrLn $ "Took " ++ (show elapsedMs) ++ "ms"

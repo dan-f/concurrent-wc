@@ -3,9 +3,9 @@ extern crate wc_rust;
 use std::env;
 use std::fs;
 use std::io::prelude::*;
-use std::io::BufReader;
 use std::path::{Path, PathBuf};
 use std::sync::mpsc;
+use std::time::Instant;
 use wc_rust::ThreadPool;
 
 thread_local!(static NUM_THREADS: usize = 8);
@@ -37,6 +37,7 @@ fn list_dir(path: PathBuf) -> Result<Vec<PathBuf>, std::io::Error> {
 }
 
 fn main() -> std::io::Result<()> {
+    let start = Instant::now();
     let args: Vec<String> = env::args().collect();
 
     let path = match args.len() {
@@ -87,5 +88,10 @@ fn main() -> std::io::Result<()> {
         println!("{:>10} {}", lines.0, lines.1.as_path().to_string_lossy());
     }
     println!("{:>10} {}", total_lines, "[TOTAL]");
+    let elapsed_dur = start.elapsed();
+    let elapsed_secs = elapsed_dur.as_secs();
+    let extra_millis = elapsed_dur.subsec_millis();
+    let elapsed_millis = elapsed_secs * 1000 + extra_millis as u64;
+    println!("Took {}ms", elapsed_millis);
     Ok(())
 }

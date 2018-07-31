@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ -n "${1}" ]]; then
-  DIR="${1}"
-else
-  DIR="$(pwd)"
-fi
-
-find "${DIR}" -type f -maxdepth 1 | xargs -P 10 wc -l
