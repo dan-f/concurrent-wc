@@ -11,9 +11,7 @@
 #include <sys/types.h>
 
 #ifdef __APPLE__
-#if TARGET_OS_MAC
 #include <sys/syslimits.h>
-#endif /* TARGET_OS_MAC */
 #endif /* __APPLE__ */
 
 #include "libutils.h"
