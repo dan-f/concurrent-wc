@@ -5,8 +5,12 @@
 import os
 import re
 import sys
+from pprint import pprint
 from subprocess import check_output
 from typing import Mapping
+
+from tqdm import tqdm
+
 
 BENCHMARKS_DIR = "./benchmarks"
 BIN_DIR = "./bin"
@@ -43,9 +47,19 @@ def run_benchmarks(directory: str) -> Mapping[str, int]:
         if wc.startswith('wc')
     }
 
+def run_all_benchmarks() -> Mapping[str, Mapping[str, int]]:
+    return{
+        directory: run_benchmarks(os.path.join(BENCHMARKS_DIR, directory))
+        for directory in tqdm(os.listdir(BENCHMARKS_DIR))
+        if os.path.isdir(os.path.join(BENCHMARKS_DIR, directory))
+    }
+    # for directory in os.listdir(BENCHMARKS_DIR):
+    #     if os.path.isdir(directory):
+    #         run_benchmarks(directory)
+
 
 def main():
-    print(run_benchmarks(sys.argv[1]))
+    pprint(run_all_benchmarks())
 
 
 if __name__ == "__main__":

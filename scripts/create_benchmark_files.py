@@ -31,7 +31,7 @@ def create_benchmark(num_files: int, file_size_bytes: int):
         fname = os.path.join(benchmark_dir, "file_{}".format(i))
         with open(fname, "w") as f:
             for chunk_size in file_chunks(file_size_bytes):
-                f.write(''.join(chr(randrange(256)) for _ in range(chunk_size)))
+                f.write(''.join('a' for _ in range(chunk_size)))
 
 
 def create_benchmarks():
