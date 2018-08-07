@@ -51,7 +51,7 @@ def main():
     print_count(sum(counts.values()), "[TOTAL]")
     end = time.perf_counter()
     elapsed_ms = int((end - start) * 1000)
-    print("Took: {}ms".format(elapsed_ms))
+    print("Took {}ms".format(elapsed_ms))
 
 
 if __name__ == "__main__":

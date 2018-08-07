@@ -10,7 +10,7 @@ else
   DIR="$(pwd)"
 fi
 
-WC_CMD="find ${DIR} -type f -maxdepth 1 | xargs -P 10 wc -l"
+WC_CMD="find ${DIR} -maxdepth 1 -type f | xargs -P 10 wc -l"
 
 { time eval "${WC_CMD}"; } 2>"${WC_TIME_FILE}"
 

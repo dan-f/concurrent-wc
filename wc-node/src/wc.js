@@ -1,5 +1,3 @@
-#!/usr/bin/env node --no-warnings
-
 const assert = require("assert");
 const { createReadStream, promises: fs } = require("fs");
 const { join } = require("path");
