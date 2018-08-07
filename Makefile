@@ -16,7 +16,7 @@ PYTHON_BIN = ./bin/wc-python
 OCAML_SRC = ./wc-ocaml/*.ml ./wc-ocaml/*.mli
 OCAML_BIN = ./bin/wc-ocaml
 
-NODE_SRC = ./wc-node/bin/wc.js
+NODE_SRC = ./wc-node/src/wc.js
 NODE_BIN = ./bin/wc-node
 
 BASH_SRC = ./wc-bash/wc-bash
@@ -75,7 +75,7 @@ $(OCAML_BIN): $(OCAML_SRC)
 node: $(NODE_BIN)
 
 $(NODE_BIN): $(NODE_SRC)
-	cp $(NODE_SRC) $(NODE_BIN) && chmod u+x $(NODE_BIN)
+	echo "node --no-warnings $(NODE_SRC)" > $(NODE_BIN) && chmod u+x $(NODE_BIN)
 
 .PHONY: bash
 bash: $(BASH_BIN)
