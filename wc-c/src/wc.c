@@ -6,10 +6,14 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <assert.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+
+#ifdef __APPLE__
 #include <sys/syslimits.h>
+#endif /* __APPLE__ */
 
 #include "libutils.h"
 
@@ -67,7 +71,13 @@ struct paths *list_dir_paths(char *path) {
 
     char p[PATH_MAX];
     while((d = readdir(dir))) {
+      assert(strlen(path) + strlen(d->d_name) + 1 < PATH_MAX);
       strcpy(p, path);
+
+      if (p[strlen(p) - 1] != '/') {
+        strcat(p, "/");
+      }
+
       strcat(p, d->d_name);
 
       memset(&sb, 0, sizeof(struct stat));
