@@ -19,11 +19,7 @@ def run_benchmark_once(wc_bin: str, directory: str) -> int:
     """
     result = check_output([os.path.join(BIN_DIR, wc_bin), directory])
     time_ms = result.decode().split('\n')[-2]
-    parsed = -1
-    try:
-        parsed = re.match(r'^Took\s+(\d+)ms$', time_ms)[1]
-    except TypeError:
-        print("could not parse timing info for {}".format(wc_bin))
+    parsed = re.match(r'^Took\s+(\d+)ms$', time_ms)[1]
     return int(parsed)
 
 

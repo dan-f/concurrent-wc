@@ -75,7 +75,7 @@ $(OCAML_BIN): $(OCAML_SRC)
 node: $(NODE_BIN)
 
 $(NODE_BIN): $(NODE_SRC)
-	echo "node --no-warnings $(NODE_SRC)" > $(NODE_BIN) && chmod u+x $(NODE_BIN)
+	printf "#!/bin/sh\nnode --no-warnings $(NODE_SRC) $$%d\n" 1 > $(NODE_BIN) && chmod u+x $(NODE_BIN)
 
 .PHONY: bash
 bash: $(BASH_BIN)
