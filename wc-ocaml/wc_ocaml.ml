@@ -25,7 +25,7 @@ let print_counts line_counts =
 let print_time_and_exit start_time = (fun () ->
     let end_time = Time.now() in
     let elapsed_ms = int_of_float (round (Time.Span.to_ms (Time.diff end_time start_time))) in
-    printf "Took %dms" elapsed_ms;
+    printf "Took %dms\n" elapsed_ms;
     shutdown 0;
   )
 ;;
