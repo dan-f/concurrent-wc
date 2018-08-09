@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 import math
 import os
 from random import randrange
+import shutil
 
 
 benchmarks_dir = "./benchmarks"
@@ -21,8 +22,10 @@ def file_chunks(num_bytes: int):
 
 
 def create_benchmark(num_files: int, file_size_bytes: int):
+    zf_num_files = str(num_files).zfill(3)  # 30, 60, 90, 120
+    zf_num_kbytes = str(file_size_bytes // 1000).zfill(4)  # 256, 512, 768, 1024
     benchmark_dir = os.path.join(
-        benchmarks_dir, "files_{num_files}_size_{file_size_bytes}".format(num_files=num_files, file_size_bytes=file_size_bytes)
+        benchmarks_dir, "files_{}_size_{}".format(zf_num_files, zf_num_kbytes)
     )
     print("Creating benchmark: {}".format(benchmark_dir))
     os.mkdir(benchmark_dir)
@@ -65,7 +68,7 @@ def main():
     if not os.path.exists(benchmarks_dir):
         os.mkdir(benchmarks_dir)
     elif args.force:
-        os.rmdir(benchmarks_dir)
+        shutil.rmtree(benchmarks_dir)
         os.mkdir(benchmarks_dir)
     else:
         print("'{benchmarks_dir}' already exists; exiting. Run with '--force' to rebuild the '{benchmarks_dir}' dir.".format(

@@ -2,12 +2,15 @@
 
 """Run me from the root repo directory"""
 
+import csv
+from datetime import datetime
+import json
 import os
-import re
-import sys
 from pprint import pprint
+import re
 from subprocess import check_output
-from typing import Mapping
+import sys
+from typing import List, Mapping
 
 from tqdm import tqdm
 
@@ -47,19 +50,23 @@ def run_benchmarks(directory: str) -> Mapping[str, int]:
         if wc.startswith('wc')
     }
 
-def run_all_benchmarks() -> Mapping[str, Mapping[str, int]]:
-    return{
-        directory: run_benchmarks(os.path.join(BENCHMARKS_DIR, directory))
+def run_all_benchmarks() -> List[Mapping[str, int]]:
+    return [
+        {"benchmark": directory, **run_benchmarks(os.path.join(BENCHMARKS_DIR, directory))}
         for directory in tqdm(os.listdir(BENCHMARKS_DIR))
         if os.path.isdir(os.path.join(BENCHMARKS_DIR, directory))
-    }
-    # for directory in os.listdir(BENCHMARKS_DIR):
-    #     if os.path.isdir(directory):
-    #         run_benchmarks(directory)
+    ]
 
 
 def main():
-    pprint(run_all_benchmarks())
+    results = run_all_benchmarks()
+    results_headers = results[0].keys()
+    results_filename = "benchmark_results_{}.csv".format(datetime.now())
+    with open(results_filename, "w") as f:
+        writer = csv.DictWriter(f, results_headers)
+        writer.writeheader()
+        writer.writerows(results)
+    print("Done! Wrote results to {}".format(results_filename))
 
 
 if __name__ == "__main__":
