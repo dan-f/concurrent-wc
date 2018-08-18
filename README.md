@@ -49,6 +49,7 @@ Each language implementation has its own dependencies.
 - `wc-python` requires [python3](https://www.python.org/getit/)
 - `wc-ruby` requires [ruby](https://www.ruby-lang.org/en/downloads/)
 - `wc-rust` requires [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
+- `wc-julia` requires [Julia 1.0](https://julialang.org/downloads/)
 
 ## building
 

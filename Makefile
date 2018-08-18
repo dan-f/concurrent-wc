@@ -25,6 +25,9 @@ BASH_BIN = ./bin/wc-bash
 C_SRC = ./wc-c/wc
 C_BIN = ./bin/wc-c
 
+JULIA_SRC = ./wc-julia/wc.jl
+JULIA_BIN = ./bin/wc-julia
+
 .PHONY: all
 all: go haskell rust ruby python ocaml node bash c
 
@@ -86,3 +89,9 @@ $(BASH_BIN): $(BASH_SRC)
 .PHONY: c
 c:
 	make -C wc-c/src
+
+.PHONY: julia
+julia: $(JULIA_BIN)
+
+$(JULIA_BIN): $(JULIA_SRC)
+	cp $(JULIA_SRC) $(JULIA_BIN) && chmod u+x $(JULIA_BIN)
