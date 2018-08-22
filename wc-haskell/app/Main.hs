@@ -9,7 +9,7 @@ import System.Environment
 
 import Lib
 
-data LineCount = LineCount FilePath Int deriving (Eq)
+data LineCount = LineCount FilePath !Int deriving (Eq)
 
 instance Show LineCount where
   show (LineCount path count) = (leftPad 10 $ show count) ++ " " ++ path
@@ -39,7 +39,7 @@ countLinesTask chan currentDir path = do
   forkIO $ do
     count <- countLines path
     let path' = normalizePathToLocal path
-    writeChan chan (LineCount path' count)
+    (writeChan chan) $! (LineCount path' count)
   return ()
   where normalizePathToLocal = \path ->
                                  case stripPrefix (currentDir ++ "/") path of
