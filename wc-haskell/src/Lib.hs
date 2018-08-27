@@ -3,8 +3,8 @@ module Lib
   , countLines
   ) where
 
-import qualified Data.ByteString as B
-import qualified Data.ByteString.Char8 as C
+import qualified Data.ByteString.Lazy as B
+import qualified Data.ByteString.Lazy.Char8 as C
 import System.Directory
   ( listDirectory
   )
@@ -39,4 +39,4 @@ isRegularFile' path =
 
 countLines :: FilePath -> IO Int
 countLines path =
-  C.count '\n' <$> B.readFile path
+  fromIntegral . C.count '\n' <$> B.readFile path
