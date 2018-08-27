@@ -1,5 +1,3 @@
-#!/usr/bin/env node --no-warnings
-
 const assert = require("assert");
 const { createReadStream, promises: fs } = require("fs");
 const { join } = require("path");
@@ -51,6 +49,7 @@ const printLineCount = ({ path, count }) => {
 };
 
 let main = async () => {
+  const start = Date.now();
   assert.ok(
     argv.length >= 2,
     "Process was somehow not called with node and script args"
@@ -66,6 +65,9 @@ let main = async () => {
     total += lineCount.count;
   }
   printLineCount({ path: "[TOTAL]", count: total });
+  const end = Date.now();
+  const elapsed = end - start;
+  console.log(`Took ${elapsed}ms`);
 };
 
 main();

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+WC_TMP_DIR='/tmp/concurrent-wc'
+WC_TIME_FILE="${WC_TMP_DIR}/wc-bash-time"
+mkdir -p "${WC_TMP_DIR}"
+
+if [[ -n "${1}" ]]; then
+  DIR="${1}"
+else
+  DIR="$(pwd)"
+fi
+
+WC_CMD="find ${DIR} -maxdepth 1 -type f | xargs -P 10 -I '{}' wc -l '{}'"
+
+{ time eval "${WC_CMD}"; } 2>"${WC_TIME_FILE}"
+
+python3 -c "
+import re
+
+real_time_line = ''
+with open('${WC_TIME_FILE}') as f:
+    real_time_line = [line for line in f][1]
+
+regex = '^real\s+(\d+)m(\d+\.\d+)s$'
+match = re.search(regex, real_time_line)
+mins, secs = match.groups()
+
+elapsed_ms = int((float(mins) * 60 * 1000) + (float(secs) * 1000))
+print('Took {}ms'.format(elapsed_ms))
+"

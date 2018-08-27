@@ -1,3 +1,5 @@
 .DS_Store
-tmp
 .vscode
+benchmarks
+benchmark_results_*.csv
+tmp

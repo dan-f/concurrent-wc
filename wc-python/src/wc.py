@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Emulates wc -l using concurrent processes/threads."""
 
-import sys
-import os
 from concurrent import futures
-
+import os
+import sys
+import time
 
 def count_lines(filename):
     """Open file, count newlines, then return (filename, line_count) tuple."""
@@ -30,6 +30,7 @@ def main():
     """Takes directory as argument, returns number of newlines in all files in
     the that directory (non-recursively).
     """
+    start = time.perf_counter()
     if len(sys.argv) < 2:
         dirname = '.'
         paths = [f for f in os.listdir(dirname)]
@@ -48,6 +49,9 @@ def main():
     for filename in ranked:
         print_count(counts[filename], filename)
     print_count(sum(counts.values()), "[TOTAL]")
+    end = time.perf_counter()
+    elapsed_ms = int((end - start) * 1000)
+    print("Took {}ms".format(elapsed_ms))
 
 
 if __name__ == "__main__":
