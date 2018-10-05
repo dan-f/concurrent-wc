@@ -6,6 +6,7 @@ import os
 import sys
 import time
 
+
 def count_lines(filename):
     """Open file, count newlines, then return (filename, line_count) tuple."""
     with open(filename, 'rb') as file_to_read:
@@ -38,13 +39,9 @@ def main():
         dirname = os.path.abspath(sys.argv[1])
         paths = [os.path.join(dirname, f) for f in os.listdir(dirname)]
     filenames = [p for p in paths if os.path.isfile(p)]
-    counts = {}
     # with futures.ThreadPoolExecutor(max_workers=len(filenames)) as executor:
     with futures.ProcessPoolExecutor(max_workers=len(filenames)) as executor:
-        all_futures = [executor.submit(count_lines, f) for f in filenames]
-        for future in futures.as_completed(all_futures):
-            filename, count = future.result()
-            counts[filename] = count
+        counts = dict(executor.map(count_lines, filenames))
     ranked = sorted(counts, key=lambda k: -counts[k])
     for filename in ranked:
         print_count(counts[filename], filename)
